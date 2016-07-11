@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android_custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <andrewlt.mystock.ui.TopBar.WidgetTopBar
+        android:id="@+id/wdt_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android_custom:m_title="topbar"
+        android_custom:m_left_image="@drawable/abc_ic_search_api_mtrl_alpha"
+        android_custom:m_right_image="@drawable/abc_ic_menu_share_mtrl_alpha">
+    </andrewlt.mystock.ui.TopBar.WidgetTopBar>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0" />
+    <include
+        layout="@layout/widget_tab_bar"/>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyStock</string>
+    <string name="home">主页</string>
+    <string name="market">行情</string>
+    <string name="favorite">自选</string>
+    <string name="news">咨询</string>
+</resources>
