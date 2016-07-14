@@ -9,7 +9,7 @@
         <android.support.v7.widget.RecyclerView
             android:transcriptMode="normal"
             android:id="@+id/favorite_list_head"
-            android:layout_width="@dimen/list_item_Width"
+            android:layout_width="@dimen/list_item_head_Width"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
         <HorizontalScrollView

@@ -18,8 +18,8 @@ public class daogenerate {
         // schema2.enableKeepSectionsByDefault();
 
         // 一旦你拥有了一个 Schema 对象后，你便可以使用它添加实体（Entities）了。
-        addNote(schema);
-
+        addFavoriteList(schema);
+        addUser(schema);
         // 最后我们将使用 DAOGenerator 类的 generateAll() 方法自动生成代码，此处你需要根据自己的情况更改输出目录（既之前创建的 java-gen)。
         // 其实，输出目录的路径可以在 build.gradle 中设置，有兴趣的朋友可以自行搜索，这里就不再详解。
         new DaoGenerator().generateAll(schema, "/Users/liut1/Documents/Projects/Android/GitSourceCode/MyStock/app/src/main/java-gen");
@@ -28,19 +28,34 @@ public class daogenerate {
     /**
      * @param schema
      */
-    private static void addNote(Schema schema) {
+    private static void addFavoriteList(Schema schema) {
         // 一个实体（类）就关联到数据库中的一张表，此处表名为「Note」（既类名）
-        Entity note = schema.addEntity("Note");
+        Entity note = schema.addEntity("FavoriteList");
         // 你也可以重新给表命名
-        // note.setTableName("NODE");
+         note.setTableName("t_FavoriteList");
 
         // greenDAO 会自动根据实体类的属性值来创建表字段，并赋予默认值
         // 接下来你便可以设置表中的字段：
         note.addIdProperty();
-        note.addStringProperty("text").notNull();
+        note.addStringProperty("stockName").notNull();
         // 与在 Java 中使用驼峰命名法不同，默认数据库中的命名是使用大写和下划线来分割单词的。
         // For example, a property called “creationDate” will become a database column “CREATION_DATE”.
-        note.addStringProperty("comment");
-        note.addDateProperty("date");
+        note.addStringProperty("stockId");
+//        note.addDateProperty("time");
+//        note.addFloatProperty("todayPrice");
+//        note.addFloatProperty("yestodayPrice");
+//        note.addFloatProperty("nowPrice");
+    }
+
+    private static void addUser(Schema schema){
+        Entity user = schema.addEntity("StockUser");
+        user.setTableName("t_StockUser");
+        user.addIdProperty();
+        user.addStringProperty("userName");
+        user.addStringProperty("phoneNumber");
+        user.addStringProperty("sex");
+        user.addStringProperty("birthday");
+        user.addIntProperty("age");
+//        user.addIntProperty();
     }
 }

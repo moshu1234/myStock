@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import andrewlt.mystock.R;
+import andrewlt.mystock.data.GreenDaoFavoriteList;
 import andrewlt.mystock.ui.FavoriteFragments.FavoriteFragmentsSearch;
 import andrewlt.mystock.ui.FavoriteFragments.FavoriteFragmentsSelected;
 import andrewlt.mystock.ui.TopBar.WidgetTopBar;
@@ -44,6 +45,7 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_favorite);
         ActionBar actionBar = getSupportActionBar();//高版本可以换成 ActionBar actionBar = getActionBar();
         actionBar.hide();
+        initGreenDao();
         initFragments();
         Log.e("========","get into favorite activity");
         this.mHomeIntent = new Intent(this, MainActivity.class);
@@ -132,5 +134,11 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
         };
         mViewPager.setAdapter(mAdapter);
         mFavoriteFragmentsSearch.setHandler(mFavoriteFragmentsSelected.getFavoriteListHandler());
+    }
+
+    public void initGreenDao(){
+        GreenDaoFavoriteList greenDaoFavoriteList = new GreenDaoFavoriteList().getInstance();
+        greenDaoFavoriteList.initGreenDao(this,"favorite_list");
+
     }
 }

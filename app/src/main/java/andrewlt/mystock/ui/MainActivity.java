@@ -9,17 +9,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.Toast;
 
 import andrewlt.mystock.R;
 import andrewlt.mystock.ui.TopBar.WidgetTopBar;
-import andrewlt.mystock.utils.StockRequest.MyStockInfoRequest;
-import andrewlt.mystock.utils.StockRequest.SinaStockInfo;
 
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+
     private Intent mHomeIntent;
     private Intent mMarketIntent;
     private Intent mFavoriteIntent;

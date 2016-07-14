@@ -14,15 +14,16 @@ public class MyStockInfoRequest {
     private String urlGif="http://image.sinajs.cn/newchart/daily/n/";
     private String info = "";
     private String stockCode = "";
-    private MyHttpRequestItem myHttpRequestItem = new MyHttpRequestItem();
+    private MyHttpRequestItem myHttpRequestItem;
     private SinaStockInfo sinaStockInfo;
     public MyStockInfoRequest(String stockCode){
+        myHttpRequestItem = new MyHttpRequestItem();
         this.stockCode = stockCode;
         myHttpRequestItem.setUrl(url+resetStockCode(stockCode));
         myHttpRequestItem.setConnectionTimeout(3000);
         myHttpRequestItem.setReadTimeout(4000);
         myHttpRequestItem.setMethod("GET");
-        parseStockInfo();
+//        parseStockInfo();
     }
     private String resetStockCode(String stockCode){
         //TODO:find out where is this code from sh, sz or not exist
@@ -41,105 +42,106 @@ public class MyStockInfoRequest {
             return "sh"+stockCode;
         }
     }
-    private void parseStockInfo(){
+    public SinaStockInfo parseStockInfo(){
         MyHttpUrlConnection myHttpUrlConnection = new MyHttpUrlConnection(myHttpRequestItem);
         try {
             sinaStockInfo = SinaStockInfo.parseStockInfo(myHttpUrlConnection.GetFromServer());
         } catch (SinaStockInfo.ParseStockInfoException e) {
             e.printStackTrace();
         }
+        return sinaStockInfo;
     }
     public Bitmap getStockBitmap(){
         myHttpRequestItem.setUrl(urlGif+resetStockCode(stockCode)+".gif");
         MyHttpUrlConnection myHttpUrlConnection = new MyHttpUrlConnection(myHttpRequestItem);
         return myHttpUrlConnection.GetPictureFromServer();
     }
-    /**
-     * 获取股票名称
-     * @return 股票名称
-     */
-    public String getName() {
-        return sinaStockInfo.getName();
-    }
-    /**
-     * 获取股票id
-     * @return 股票编号
-     */
-    public String getID(){
-        return this.stockCode;
-    }
-    /**
-     * 获取今日开盘价
-     * @return 今日股票开盘价
-     */
-    public float getTodayPrice() {
-        return sinaStockInfo.getTodayPrice();
-    }
-
-    /**
-     * 获取昨日收盘价
-     * @return 昨日收盘价
-     */
-    public float getYestodayPrice() {
-        return sinaStockInfo.getYestodayPrice();
-    }
-
-    /**
-     * 获取当前股价
-     * @return 当前股价
-     */
-    public float getNowPrice() {
-        return sinaStockInfo.getNowPrice();
-    }
-
-    /**
-     * 获取今日最高价
-     * @return 今日最高价
-     */
-    public float getHighestPrice() {
-        return sinaStockInfo.getHighestPrice();
-    }
-
-    /**
-     * 获取今日最低价
-     * @return 今日最低价
-     */
-    public float getLowestPrice() {
-        return sinaStockInfo.getLowestPrice();
-    }
-
-
-    public long getTradeCount() {
-        return sinaStockInfo.getTradeCount();
-    }
-
-
-    public Double getTradeMoney() {
-
-        return sinaStockInfo.getTradeMoney();
-    }
-
-
-    public SinaStockInfo.BuyOrSellInfo[] getBuyInfo() {
-        return sinaStockInfo.getBuyInfo();
-    }
-
-
-    public SinaStockInfo.BuyOrSellInfo[] getSellInfo() {
-        return sinaStockInfo.getSellInfo();
-    }
-
-
-    public String getDate() {
-        return sinaStockInfo.getDate();
-    }
-
-
-    public String getTime() {
-        return sinaStockInfo.getTime();
-    }
-    @Override
-    public String toString(){
-        return sinaStockInfo.toString();
-    }
+//    /**
+//     * 获取股票名称
+//     * @return 股票名称
+//     */
+//    public String getName() {
+//        return sinaStockInfo.getName();
+//    }
+//    /**
+//     * 获取股票id
+//     * @return 股票编号
+//     */
+//    public String getID(){
+//        return this.stockCode;
+//    }
+//    /**
+//     * 获取今日开盘价
+//     * @return 今日股票开盘价
+//     */
+//    public float getTodayPrice() {
+//        return sinaStockInfo.getTodayPrice();
+//    }
+//
+//    /**
+//     * 获取昨日收盘价
+//     * @return 昨日收盘价
+//     */
+//    public float getYestodayPrice() {
+//        return sinaStockInfo.getYestodayPrice();
+//    }
+//
+//    /**
+//     * 获取当前股价
+//     * @return 当前股价
+//     */
+//    public float getNowPrice() {
+//        return sinaStockInfo.getNowPrice();
+//    }
+//
+//    /**
+//     * 获取今日最高价
+//     * @return 今日最高价
+//     */
+//    public float getHighestPrice() {
+//        return sinaStockInfo.getHighestPrice();
+//    }
+//
+//    /**
+//     * 获取今日最低价
+//     * @return 今日最低价
+//     */
+//    public float getLowestPrice() {
+//        return sinaStockInfo.getLowestPrice();
+//    }
+//
+//
+//    public long getTradeCount() {
+//        return sinaStockInfo.getTradeCount();
+//    }
+//
+//
+//    public Double getTradeMoney() {
+//
+//        return sinaStockInfo.getTradeMoney();
+//    }
+//
+//
+//    public SinaStockInfo.BuyOrSellInfo[] getBuyInfo() {
+//        return sinaStockInfo.getBuyInfo();
+//    }
+//
+//
+//    public SinaStockInfo.BuyOrSellInfo[] getSellInfo() {
+//        return sinaStockInfo.getSellInfo();
+//    }
+//
+//
+//    public String getDate() {
+//        return sinaStockInfo.getDate();
+//    }
+//
+//
+//    public String getTime() {
+//        return sinaStockInfo.getTime();
+//    }
+//    @Override
+//    public String toString(){
+//        return sinaStockInfo.toString();
+//    }
 }

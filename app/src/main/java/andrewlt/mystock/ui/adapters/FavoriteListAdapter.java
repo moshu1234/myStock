@@ -51,6 +51,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     }
     @Override
     public void onBindViewHolder(FavoriteListAdapter.MyViewHolder holder, int position) {
+        Log.e("=====","wo ca is ="+mData.get(position).getNowPrice());
         holder.tv_nowPrice.setText(mData.get(position).getNowPrice());
         holder.tv_nowScale.setText(mData.get(position).getNowScale());
         holder.tv_tradeCount.setText(mData.get(position).getTradeCount());

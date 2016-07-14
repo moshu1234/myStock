@@ -2,7 +2,6 @@ package andrewlt.mystock.ui.FavoriteFragments;
 
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,19 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import andrewlt.mystock.R;
+import andrewlt.mystock.data.GreenDaoFavoriteList;
 import andrewlt.mystock.ui.adapters.FavoriteListAdapter;
 import andrewlt.mystock.ui.adapters.FavoriteListItem;
 import andrewlt.mystock.ui.adapters.favoriteListHeadAdapter;
 import andrewlt.mystock.utils.MyToast;
 import andrewlt.mystock.utils.StockRequest.MyStockInfoAsyncRequest;
+import andrewlt.mystock.utils.StockRequest.MyStockInfoRequest;
 import andrewlt.mystock.utils.StockRequest.SinaStockInfo;
+import me.mystock.greendao.FavoriteList;
+import me.mystock.greendao.FavoriteListDao;
 
 
 /**
@@ -55,7 +56,6 @@ public class FavoriteFragmentsSelected extends Fragment {
         item.setOpenToday("开盘");
         item.setTradeCount("交易量");
         mData.add(item);
-
         LinearLayoutManager layoutHeadManager = new LinearLayoutManager(getContext());
         recyclerViewHead.setLayoutManager(layoutHeadManager);
         headAdapter = new favoriteListHeadAdapter(mData);
@@ -80,6 +80,7 @@ public class FavoriteFragmentsSelected extends Fragment {
             }
         });
 //        recyclerView.smoothScrollToPosition(mData.size());
+        FavoriteListThread();
     }
     public void deleteFavoriteStock(FavoriteListItem item){
         for (int i=0;i<mData.size();i++){
@@ -88,11 +89,18 @@ public class FavoriteFragmentsSelected extends Fragment {
                 break;
             }
         }
+
+        GreenDaoFavoriteList gd = new GreenDaoFavoriteList().getInstance();
+        FavoriteList note = new FavoriteList(null,item.getName(),item.getId());
+        gd.delNote(note);
         adapter.notifyDataSetChanged();
         headAdapter.notifyDataSetChanged();
     }
     public void addFavoriteStock(FavoriteListItem item){
         mData.add(item);
+        GreenDaoFavoriteList gd = new GreenDaoFavoriteList().getInstance();
+        FavoriteList note = new FavoriteList(null,item.getName(),item.getId());
+        gd.addNote(note);
         adapter.notifyDataSetChanged();
         headAdapter.notifyDataSetChanged();
     }
@@ -105,6 +113,10 @@ public class FavoriteFragmentsSelected extends Fragment {
                     break;
                 case 2://delete
                     break;
+                case 3://update list
+                    adapter.notifyDataSetChanged();
+                    headAdapter.notifyDataSetChanged();
+                    break;
             }
             return true;
         }
@@ -112,5 +124,40 @@ public class FavoriteFragmentsSelected extends Fragment {
     public Handler getFavoriteListHandler()
     {
         return favoriteListHandler;
+    }
+
+    public void FavoriteListThread(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GreenDaoFavoriteList fld = new GreenDaoFavoriteList().getInstance();
+                List<FavoriteList> fl = new ArrayList<>();
+                fl = fld.getNoteDao().queryBuilder().list();
+                for(FavoriteList favoriteList:fl){
+                    MyStockInfoRequest myStockInfoRequest = new MyStockInfoRequest(favoriteList.getStockId());
+                    SinaStockInfo sinaStockInfo = myStockInfoRequest.parseStockInfo();
+                    FavoriteListItem item = new FavoriteListItem();
+                    item.setName(favoriteList.getStockName());
+                    item.setId(favoriteList.getStockId());
+                    float scale = 0;
+                    if(sinaStockInfo.getNowPrice() == 0){
+                        scale = 0;
+                    }
+                    else {
+                        scale = (sinaStockInfo.getNowPrice() - sinaStockInfo.getYestodayPrice());
+                    }
+                    BigDecimal bd = new BigDecimal(Double.parseDouble(String.valueOf(scale)));
+                    item.setNowPrice(String.valueOf(sinaStockInfo.getNowPrice()));
+                    item.setNowScale(String.valueOf(bd.setScale(3,BigDecimal.ROUND_HALF_UP).floatValue()));
+                    item.setOpenToday(String.valueOf(sinaStockInfo.getTodayPrice()));
+                    item.setTradeCount(String.valueOf(sinaStockInfo.getTradeCount()));
+                    mData.add(item);
+
+                    Message message = new Message();
+                    message.what = 3;
+                    favoriteListHandler.sendMessage(message);
+                }
+            }
+        }).start();
     }
 }
