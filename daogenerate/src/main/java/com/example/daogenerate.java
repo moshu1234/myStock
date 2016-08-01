@@ -8,7 +8,7 @@ public class daogenerate {
     public static void main(String[] args) throws Exception {
         // 正如你所见的，你创建了一个用于添加实体（Entity）的模式（Schema）对象。
         // 两个参数分别代表：数据库版本号与自动生成代码的包路径。
-        Schema schema = new Schema(1, "me.mystock.greendao");
+        Schema schema = new Schema(1, "me.fuel.greendao");
 //      当然，如果你愿意，你也可以分别指定生成的 Bean 与 DAO 类所在的目录，只要如下所示：
 //      Schema schema = new Schema(1, "me.itangqi.bean");
 //      schema.setDefaultJavaPackageDao("me.itangqi.dao");
@@ -18,11 +18,13 @@ public class daogenerate {
         // schema2.enableKeepSectionsByDefault();
 
         // 一旦你拥有了一个 Schema 对象后，你便可以使用它添加实体（Entities）了。
-        addFavoriteList(schema);
-        addUser(schema);
+//        addFavoriteList(schema);
+//        addUser(schema);
+        addFuelData(schema);
         // 最后我们将使用 DAOGenerator 类的 generateAll() 方法自动生成代码，此处你需要根据自己的情况更改输出目录（既之前创建的 java-gen)。
         // 其实，输出目录的路径可以在 build.gradle 中设置，有兴趣的朋友可以自行搜索，这里就不再详解。
-        new DaoGenerator().generateAll(schema, "/Users/liut1/Documents/Projects/Android/GitSourceCode/MyStock/app/src/main/java-gen");
+//        new DaoGenerator().generateAll(schema, "/Users/liut1/Documents/Projects/Android/GitSourceCode/MyStock/app/src/main/java-gen");
+        new DaoGenerator().generateAll(schema, "/Users/liut1/Documents/Projects/Android/GitSourceCode/Fuel/app/src/main/java-gen");
     }
 
     /**
@@ -57,5 +59,29 @@ public class daogenerate {
         user.addStringProperty("birthday");
         user.addIntProperty("age");
 //        user.addIntProperty();
+    }
+
+    private static void addFuelData(Schema schema){
+        Entity fuelData = schema.addEntity("FuelData");
+        fuelData.setTableName("t_FuelData");
+        fuelData.addIdProperty();
+        //tyep:data, type or others
+        fuelData.addIntProperty("type");
+        fuelData.addDateProperty("date");
+        fuelData.addIntProperty("year");
+        fuelData.addIntProperty("month");
+        fuelData.addIntProperty("day");
+        fuelData.addStringProperty("time");
+        fuelData.addIntProperty("currentMiles");
+        fuelData.addFloatProperty("unitPrice");
+        fuelData.addFloatProperty("totalPrice");
+        fuelData.addFloatProperty("currentFuelCapacity");
+        fuelData.addFloatProperty("averageFuel");
+        fuelData.addBooleanProperty("isFull");
+        fuelData.addBooleanProperty("isEmpty");
+        fuelData.addBooleanProperty("lastTimeNoRecord");
+        fuelData.addStringProperty("fuelQuality");
+        fuelData.addStringProperty("location");
+        fuelData.addStringProperty("notes");
     }
 }

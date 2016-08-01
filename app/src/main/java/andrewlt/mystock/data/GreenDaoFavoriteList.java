@@ -28,6 +28,7 @@ public class GreenDaoFavoriteList {
         return instance;
     }
     public void initGreenDao(Context context, String dbName){
+
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, dbName, null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);

@@ -16,7 +16,7 @@ import andrewlt.mystock.ui.TopBar.WidgetTopBar;
 
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
-
+    private final String TAG=this.getClass().getName();
     private Intent mHomeIntent;
     private Intent mMarketIntent;
     private Intent mFavoriteIntent;

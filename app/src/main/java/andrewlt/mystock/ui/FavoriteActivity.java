@@ -38,7 +38,7 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
 
     private List<Fragment> mFragments = new ArrayList<Fragment>();
     private SlidelessViewPager mViewPager;
-    FragmentStatePagerAdapter mAdapter;
+    private FragmentStatePagerAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +100,7 @@ public class FavoriteActivity extends AppCompatActivity implements View.OnClickL
             switch (buttonView.getId()) {
                 case R.id.radio_button0:
 //                    Log.e("======",buttonView.getId() + "is checked 1 ");
+                    startActivity(mHomeIntent);
                     break;
                 case R.id.radio_button1:
 //                    Log.e("======",buttonView.getId() + "is checked 2 ");
